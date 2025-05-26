@@ -1,0 +1,14 @@
+---
+- name: Limit the range.
+  hosts: all
+  sources:
+    - name: range
+      ansible.eda.range:
+        limit: 30
+        delay: 1
+  rules:
+    - name: check the condition.
+      condition: event.i == 27
+      action:
+        debug:
+          msg: “I am learning to write a rulebook as a part of training”
