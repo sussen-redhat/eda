@@ -1,0 +1,25 @@
+---
+- name: Webhook message.
+  hosts: all
+  sources:
+    - name: Webhook source.
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5229
+
+  rules:
+    - name: populate message after checking.
+      condition: event.payload.message == "Howdy! Ansible EDA"
+      action:
+        run_job_template:
+          name: Demo Job Template
+          organization: Default
+          job_args:
+            extra_vars:
+              msg: "{{ event.payload.message }}"
+        
+    - name: Print Message in EDA for Other Messages
+      condition: event.payload.message is defined
+      action:
+        debug:
+          msg: "{{ event.payload.message }}"
